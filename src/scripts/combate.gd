@@ -1,9 +1,3 @@
-
-	for m in morfis:
-		if not esta_debilitado(m):
-			return false
-	return true
-
 # bucle de combate principal
 func emular_combate(t1: Entrenador, t2: Entrenador) -> void:
 	# mientras ambos tengan al menos 1 morfito con vida
@@ -34,7 +28,11 @@ func emular_combate(t1: Entrenador, t2: Entrenador) -> void:
 
 # chequea si todo el equipo está debilitado
 func tiene_equipo_debilitado(morfis: Array) -> bool:
-
+	for m in morfis:
+		if not esta_debilitado(m):
+			return false
+	return true
+	
 # chequea si un morfito está KO
 func esta_debilitado(morfito: Morfito) -> bool:
 	return morfito.ps <= 0

@@ -56,5 +56,5 @@ const efectividad := {
 	}
 
 #Método para obtener la efectividad de un movimiento entre un tipo de morfito contra el tipo de otro morfito.
-static func get_multiplier(atq_tipo: String, def_tipo: String) -> float:
+static func obtener_efectividad(atq_tipo: String, def_tipo: String) -> float:
 	return efectividad.get([atq_tipo, def_tipo], 1.0)

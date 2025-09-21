@@ -2,7 +2,7 @@
 func emular_combate(t1: Entrenador, t2: Entrenador) -> void:
 	# mientras ambos tengan al menos 1 morfito con vida
 	while not tiene_equipo_debilitado(t1.morfis) and not tiene_equipo_debilitado(t2.morfis):
-		# acá cada entrenador debe elegir su decisión (ataque o cambio)
+		# acá cada entrenador debe elegir su decisión (ataque o cambio, a futuro se agregarían inventario  y huida.)
 		var d1: Dictionary = obtener_decision(t1)  # <- esto lo defines según tu UI/IA
 		var d2: Dictionary = obtener_decision(t2)
 
@@ -106,12 +106,68 @@ func simular_turno(t1: Entrenador, t2: Entrenador, morfi1: Morfito, morfi2: Morf
 	return {"cambio_t1": null, "cambio_t2": null, "ko_t1": false, "ko_t2": false, "ganador": null}
 
 
+func acierta_Ataque(mov: Movimiento) -> bool:
+
+	var _numero_aleatorio: int = 1 #acá va el rng para que pueda existir una chance de fallo siempre, por más puntería q haya.
+	return _numero_aleatorio < mov.Punteria
+
+
+
+func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
+ 
+	var  ataque: float 
+	var defensa: float
+
+	if mov.categoria == "Físico":
+	  
+		ataque = morfiA.Atq 
+		defensa = morfiB.Def
+		
+	else:
+	  
+		ataque = morfiB.atq
+		defensa = morfiA.DefEsp
+	  
+
+	  # Cálculo del daño base
+	var danio_base: float = ((42 * mov.Poder * (ataque / defensa)) / 50) + 2 
+	# HAY Q MODIFICAR El 42 para que lo calcule exacto por nivel, 42 es el default de level 100.
+
+
+	  # Calculamos el STAB.          
+	var stab: float
+	if (morfiA.Tipo == mov.Tipo): # Si el tipo del morfito coincide con el tipo del movimiento
+		stab = 1.5 # Se aplica STAB
+	else:
+		stab = 1 # No se aplica STAB
+
+	  # Efectividad de tipo (utiliza la tabla de tipos para definir la eficacia).
+	var efectividad: float = Efectividades.obtener_efectividad(mov.Tipo, morfiB.Tipo);
+
+	  # Variación aleatoria (Este es el valor "random" que permite aportar aleatoriedad a los combates).
+	var variacion_default:int  = randi_range(217,256) # Entre 217 y 255 inclusive, por los bytes que tenian como limitación.
+	var variacion:float = variacion_default / 255 # ~0.85 a 1.0 , esta es la variación original de la primer Gen
+
+	  #Mínimo: 85% del daño base (multiplicado por 0.85)
+	  #Máximo: 100 % del daño base(multiplicado por 1.00)
+	  #Rango de variación: del 85 % al 100 %.
+
+
+	  # Calcular el daño final
+	var danio_final: float = danio_base * stab * efectividad * variacion
+
+	return danio_final;
+  
+
+
 
 
 # COMPLETARRRRR
 
-func ejecutar_ataque(morfiA, mov, morfiB) -> void:
-	pass
+func ejecutar_ataque(morfiA: Morfito, mov: Movimiento, morfiB:Morfito) -> void:
+	#Este es el q debería encargarse de todo lo relacionado al ataque, golpear, restar vida.
+	if acierta_Ataque(mov):
+		pass #falta
 
 func obtener_decision(trainer: Entrenador) -> Dictionary:
 	return {}  # por ahora diccionario vacío

@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cg60y5nd7u8mv"]
+[gd_scene load_steps=2 format=3 uid="uid://cg60y5nd7u8mv"]
+
+[ext_resource type="Texture2D" uid="uid://dcjplpwovwvpg" path="res://_Assets/nirah-______-terrain.jpg" id="1_54cpu"]
 
 [node name="Combat Hud" type="Control"]
 layout_mode = 3
@@ -7,3 +9,113 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Fondo" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_54cpu")
+expand_mode = 1
+
+[node name="Arriba" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 27.0
+grow_horizontal = 2
+
+[node name="Zocalo_Superior" type="HBoxContainer" parent="Arriba"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="morfi1" type="BoxContainer" parent="Arriba/Zocalo_Superior"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+vertical = true
+
+[node name="Nombre_m1" type="Label" parent="Arriba/Zocalo_Superior/morfi1"]
+layout_mode = 2
+text = "PLACE HOLDER !"
+horizontal_alignment = 1
+
+[node name="Vida_m1" type="ProgressBar" parent="Arriba/Zocalo_Superior/morfi1"]
+layout_mode = 2
+
+[node name="morfi2" type="BoxContainer" parent="Arriba/Zocalo_Superior"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+vertical = true
+
+[node name="Nombre_m2" type="Label" parent="Arriba/Zocalo_Superior/morfi2"]
+layout_direction = 3
+layout_mode = 2
+text = "PLACE HOLDER 2!"
+horizontal_alignment = 1
+
+[node name="Vida_m2" type="ProgressBar" parent="Arriba/Zocalo_Superior/morfi2"]
+layout_direction = 3
+layout_mode = 2
+
+[node name="Abajo" type="BoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Zocalo_Inferior" type="HSplitContainer" parent="Abajo"]
+layout_mode = 2
+size_flags_horizontal = 3
+split_offset = 160
+
+[node name="Status" type="BoxContainer" parent="Abajo/Zocalo_Inferior"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextEdit" type="RichTextLabel" parent="Abajo/Zocalo_Inferior/Status"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "HOLA SOY UN HOLDER
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Botonera" type="BoxContainer" parent="Abajo/Zocalo_Inferior"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Grilla Botones" type="GridContainer" parent="Abajo/Zocalo_Inferior/Botonera"]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 2
+
+[node name="Atacar" type="Button" parent="Abajo/Zocalo_Inferior/Botonera/Grilla Botones"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ATACAR"
+
+[node name="Cambiar" type="Button" parent="Abajo/Zocalo_Inferior/Botonera/Grilla Botones"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "CAMBIAR"
+
+[node name="Inventario" type="Button" parent="Abajo/Zocalo_Inferior/Botonera/Grilla Botones"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "INVENTARIO"
+
+[node name="Huir" type="Button" parent="Abajo/Zocalo_Inferior/Botonera/Grilla Botones"]
+layout_mode = 2
+text = "ESCAPAR"

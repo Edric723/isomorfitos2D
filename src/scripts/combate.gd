@@ -105,13 +105,9 @@ func simular_turno(t1: Entrenador, t2: Entrenador, morfi1: Morfito, morfi2: Morf
 	# nadie se debilitò
 	return {"cambio_t1": null, "cambio_t2": null, "ko_t1": false, "ko_t2": false, "ganador": null}
 
-
 func acierta_Ataque(mov: Movimiento) -> bool:
-
 	var _numero_aleatorio: int = 1 #acá va el rng para que pueda existir una chance de fallo siempre, por más puntería q haya.
 	return _numero_aleatorio < mov.Punteria
-
-
 
 func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
  
@@ -119,20 +115,16 @@ func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
 	var defensa: float
 
 	if mov.categoria == "Físico":
-	  
 		ataque = morfiA.Atq 
 		defensa = morfiB.Def
 		
 	else:
-	  
 		ataque = morfiB.atq
 		defensa = morfiA.DefEsp
 	  
-
 	  # Cálculo del daño base
 	var danio_base: float = ((42 * mov.Poder * (ataque / defensa)) / 50) + 2 
 	# HAY Q MODIFICAR El 42 para que lo calcule exacto por nivel, 42 es el default de level 100.
-
 
 	  # Calculamos el STAB.          
 	var stab: float
@@ -141,7 +133,7 @@ func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
 	else:
 		stab = 1 # No se aplica STAB
 
-	  # Efectividad de tipo (utiliza la tabla de tipos para definir la eficacia).
+	  # Efectividad de tipo (utiliza la tabla de efectividades para definir la eficacia).
 	var efectividad: float = Efectividades.obtener_efectividad(mov.Tipo, morfiB.Tipo);
 
 	  # Variación aleatoria (Este es el valor "random" que permite aportar aleatoriedad a los combates).
@@ -152,22 +144,37 @@ func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
 	  #Máximo: 100 % del daño base(multiplicado por 1.00)
 	  #Rango de variación: del 85 % al 100 %.
 
-
 	  # Calcular el daño final
 	var danio_final: float = danio_base * stab * efectividad * variacion
 
 	return danio_final;
-  
 
+	# FUNCIÓN QUE DEFINE CUÁL POKEMON GOLPEA PRIMERO (según velocidad) Y ESTABLECE LA JERARQUÍA DE TURNOS.
 
+func definir_primer_golpe(morfiA: Morfito, morfiB: Morfito):
+	if (morfiA.Velocidad > morfiB.Velocidad):
+		return morfiA
+	
+	elif (morfiA.Velocidad < morfiB.Velocidad):
+		return morfiB
+	
+	else:
+	# Velocidades iguales: Decidimos por rng.
+		if randi_range(0,  2) == 0:
+			return morfiA
+		else:
+			return morfiB;
 
+#----------------------------------------------------------------------------------------------------
 
 # COMPLETARRRRR
 
 func ejecutar_ataque(morfiA: Morfito, mov: Movimiento, morfiB:Morfito) -> void:
 	#Este es el q debería encargarse de todo lo relacionado al ataque, golpear, restar vida.
 	if acierta_Ataque(mov):
-		pass #falta
+		var danio: float = calcular_Danio(mov, morfiA, morfiB)
+		var efectividad = Efectividades.obtener_efectividad(mov.mov_tipo, morfiB.morfito_tipo)
+		
 
 func obtener_decision(trainer: Entrenador) -> Dictionary:
 	return {}  # por ahora diccionario vacío

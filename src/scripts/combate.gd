@@ -1,30 +1,58 @@
 # bucle de combate principal
 func emular_combate(t1: Entrenador, t2: Entrenador) -> void:
-	# mientras ambos tengan al menos 1 morfito con vida
-	while not tiene_equipo_debilitado(t1.morfis) and not tiene_equipo_debilitado(t2.morfis):
-		# acá cada entrenador debe elegir su decisión (ataque o cambio, a futuro se agregarían inventario  y huida.)
-		var d1: Dictionary = obtener_decision(t1)  # <- esto lo defines según tu UI/IA
-		var d2: Dictionary = obtener_decision(t2)
+	# morfitos activos iniciales
+	var activo1: Morfito = elegir_morfi_activo(t1)
+	var activo2: Morfito = elegir_morfi_activo(t2)
 
-		var activo1: Morfito = elegir_morfi_activo(t1)
-		var activo2: Morfito = elegir_morfi_activo(t2)
+	while not tiene_equipo_debilitado(t1.morfis) and not tiene_equipo_debilitado(t2.morfis):
+		# --- declarar inputs de decisión (asignados por UI) ---
+		var accion_t1: int
+		var movimiento_elegido_t1: Movimiento = null
+		var morfi_elegido_t1: Morfito = null
+
+		var accion_t2: int
+		var movimiento_elegido_t2: Movimiento = null
+		var morfi_elegido_t2: Morfito = null
+
+		# TODO: asignar acá segun UI
+		# accion_t1 = AccionTipo.ATACAR ó AccionTipo.CAMBIAR
+		# movimiento_elegido_t1 = <Movimiento> si ATACAR
+		# morfi_elegido_t1 = <Morfito> si CAMBIAR
+		# (mismo patrón para _t2)
+
+		var d1: Dictionary = obtener_decision(
+			t1,
+			accion_t1,
+			movimiento_elegido_t1,
+			morfi_elegido_t1
+		)
+
+		var d2: Dictionary = obtener_decision(
+			t2,
+			accion_t2,
+			movimiento_elegido_t2,
+			morfi_elegido_t2
+		)
 
 		var res: Dictionary = simular_turno(t1, t2, activo1, activo2, d1, d2)
 
-		# aplicar los cambios de morfi activos
+		# aplicar cambios de morfi activos
 		if res["cambio_t1"] != null:
 			activo1 = res["cambio_t1"]
 		if res["cambio_t2"] != null:
 			activo2 = res["cambio_t2"]
 
-		# si alguien quedó KO, deberías forzar reemplazo afuera
+		# KO → forzar reemplazo (pendiente UI)
 		if res["ko_t1"]:
 			print("Entrenador1 debe elegir nuevo Morfito")
+			# activo1 = <nuevo morfi elegido>
 		if res["ko_t2"]:
 			print("Entrenador2 debe elegir nuevo Morfito")
+			# activo2 = <nuevo morfi elegido>
 
-	# cuando salga del while, anunciar al ganador
 	anunciar_ganador(t1, t2)
+
+
 
 # chequea si todo el equipo está debilitado
 func tiene_equipo_debilitado(morfis: Array) -> bool:
@@ -106,8 +134,8 @@ func simular_turno(t1: Entrenador, t2: Entrenador, morfi1: Morfito, morfi2: Morf
 	return {"cambio_t1": null, "cambio_t2": null, "ko_t1": false, "ko_t2": false, "ganador": null}
 
 func acierta_Ataque(mov: Movimiento) -> bool:
-	var _numero_aleatorio: int = 1 #acá va el rng para que pueda existir una chance de fallo siempre, por más puntería q haya.
-	return _numero_aleatorio < mov.Punteria
+	var _numero_aleatorio: int = randi_range(0, 100) 
+	return _numero_aleatorio < mov.punteria # si lo dejo en < menor hay una chance mínima de que falle siendo 100 la puntería,  si lo dejo en <= menor igual, no fallaría nunca al ser 100 de punteria
 
 func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
  
@@ -149,7 +177,7 @@ func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
 
 	return danio_final;
 
-	# FUNCIÓN QUE DEFINE CUÁL POKEMON GOLPEA PRIMERO (según velocidad) Y ESTABLECE LA JERARQUÍA DE TURNOS.
+	# FUNCIÓN QUE DEFINE CUÁL MORFITO GOLPEA PRIMERO (según velocidad) Y ESTABLECE LA JERARQUÍA DE TURNOS.
 
 func definir_primer_golpe(morfiA: Morfito, morfiB: Morfito):
 	if (morfiA.Velocidad > morfiB.Velocidad):
@@ -165,9 +193,6 @@ func definir_primer_golpe(morfiA: Morfito, morfiB: Morfito):
 		else:
 			return morfiB;
 
-#----------------------------------------------------------------------------------------------------
-
-# COMPLETARRRRR
 
 func ejecutar_ataque(morfiA: Morfito, mov: Movimiento, morfiB:Morfito) -> void:
 	#Este es el q debería encargarse de todo lo relacionado al ataque, golpear, restar vida.
@@ -175,12 +200,34 @@ func ejecutar_ataque(morfiA: Morfito, mov: Movimiento, morfiB:Morfito) -> void:
 		var danio: float = calcular_Danio(mov, morfiA, morfiB)
 		var efectividad = Efectividades.obtener_efectividad(mov.mov_tipo, morfiB.morfito_tipo)
 		
+		morfiB.ps -= round(danio)
+		
 
-func obtener_decision(trainer: Entrenador) -> Dictionary:
-	return {}  # por ahora diccionario vacío
+func obtener_decision(trainer: Entrenador, accion: int, movimiento_elegido: Movimiento = null, morfi_elegido: Morfito = null) -> Dictionary:
+	if accion == AccionTipo.ATACAR:
+		return {
+			"tipo": AccionTipo.ATACAR,
+			"mov": movimiento_elegido,
+			"nuevo": null
+		}
+	elif accion == AccionTipo.CAMBIAR:
+		return {
+			"tipo": AccionTipo.CAMBIAR,
+			"mov": null,
+			"nuevo": morfi_elegido
+		}
+	else: # Este else queda para aguantar las futuras implementaciones de mochila, huida, lo que fuere.
+		return {}
 
+# -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
+ # COMPLETAR
 func elegir_morfi_activo(trainer: Entrenador) -> Morfito:
+	#dado el trainer.morfis, elegir un morfi segun el indice
 	return null  # si Morfito es una clase, null es aceptado
 
 func anunciar_ganador(t1: Entrenador, t2: Entrenador) -> Entrenador:
+	#if t1.morfis.lenght > 0 && t2.morfis.lenght < 0
+	#	gana t1
+	# Else
+	#Gana t2
 	return null

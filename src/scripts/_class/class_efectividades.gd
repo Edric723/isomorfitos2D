@@ -3,58 +3,48 @@ class_name Efectividades
 # Diccionario de efectividades: (atacante, defensor) -> multiplicador
 const efectividad := {
 	# SOLAR
-	["Solar", "Aqua"]: 0.0,
-	["Normal", "Fantasma"]: 0.0,
+	["Solar", "Aqua"]: 2.0,
+	["Solar", "Umbra"]: 2.0,
+	["Solar", "Fungi"]: 0.5,
+	["Solar", "Cristagena"]: 0.5,
+	["Solar", "Lignen"]: 1.0,
 
-	# UMBRA
-	["Fuego", "Planta"]: 2.0,
-	["Fuego", "Hielo"]: 2.0,
-	["Fuego", "Bicho"]: 2.0,
+	# UMBRA (Fuego)
+	["Umbra", "Cristagena"]: 2.0,
+	["Umbra", "Lignen"]: 2.0,
+	["Umbra", "Solar"]: 0.5,
+	["Umbra", "Aqua"]: 0.5,
+	["Umbra", "Umbra"]: 0.5,
 
-	["Fuego", "Fuego"]: 0.5,
-	["Fuego", "Agua"]: 0.5,
-	["Fuego", "Roca"]: 0.5,
-	["Fuego", "Dragon"]: 0.5,
+	# AQUA (Agua)
+	["Aqua", "Umbra"]: 2.0,
+	["Aqua", "Lignen"]: 2.0,
+	["Aqua", "Solar"]: 0.5,
+	["Aqua", "Cristagena"]: 0.5,
+	["Aqua", "Aqua"]: 0.5,
 
-	# AQUA
-	["Agua", "Fuego"]: 2.0,
-	["Agua", "Tierra"]: 2.0,
-	["Agua", "Roca"]: 2.0,
+	# FUNGI (Fungica)
+	["Fungi", "Aqua"]: 2.0,
+	["Fungi", "Lignen"]: 1.0,
+	["Fungi", "Cristagena"]: 0.5,
+	["Fungi", "Solar"]: 1.0,
+	["Fungi", "Fungi"]: 0.5,
 
-	["Agua", "Agua"]: 0.5,
-	["Agua", "Planta"]: 0.5,
-	["Agua", "Dragon"]: 0.5,
+	# CRISTAGENA (Planta)
+	["Cristagena", "Aqua"]: 2.0,
+	["Cristagena", "Lignen"]: 0.5,
+	["Cristagena", "Solar"]: 2.0,
+	["Cristagena", "Umbra"]: 0.5,
+	["Cristagena", "Cristagena"]: 0.5,
 
-	# FUNGI
-	["Electrico", "Agua"]: 2.0,
-	["Electrico", "Volador"]: 2.0,
+	# LIGNEN (Hielo)
+	["Lignen", "Cristagena"]: 2.0,
+	["Lignen", "Solar"]: 2.0,
+	["Lignen", "Umbra"]: 1.0,
+	["Lignen", "Aqua"]: 0.5,
+	["Lignen", "Lignen"]: 0.5
+}
 
-	["Electrico", "Electrico"]: 0.5,
-	["Electrico", "Planta"]: 0.5,
-	["Electrico", "Dragon"]: 0.5,
-
-	["Electrico", "Tierra"]: 0.0,
-
-	# CRISTAGENA
-	["Planta", "Agua"]: 2.0,
-	["Planta", "Tierra"]: 2.0,
-	["Planta", "Roca"]: 2.0,
-
-	["Planta", "Fuego"]: 0.5,
-	["Planta", "Planta"]: 0.5,
-	["Planta", "Veneno"]: 0.5,
-	["Planta", "Volador"]: 0.5,
-	["Planta", "Bicho"]: 0.5,
-	["Planta", "Dragon"]: 0.5,
-
-	# LIGNEN
-	["Hielo", "Planta"]: 2.0,
-	["Hielo", "Tierra"]: 2.0,
-	["Hielo", "Volador"]: 2.0,
-	["Hielo", "Dragon"]: 2.0
-	
-	}
-
-#Método para obtener la efectividad de un movimiento entre un tipo de morfito contra el tipo de otro morfito.
+# Método para obtener la efectividad
 static func obtener_efectividad(atq_tipo: String, def_tipo: String) -> float:
 	return efectividad.get([atq_tipo, def_tipo], 1.0)

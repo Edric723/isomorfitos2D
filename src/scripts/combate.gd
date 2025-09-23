@@ -1,3 +1,5 @@
+class_name Combate
+
 # ------------------------------------------------------------
 # CONTRATO DEL SISTEMA DE COMBATE (invariantes)
 # ------------------------------------------------------------
@@ -34,10 +36,7 @@
 # - randomize() se llama una sola vez al inicio del combate/juego.
 # ------------------------------------------------------------
 
-
-
-
-# BUCLE PRINCIPAL
+# --- BUCLE PRINCIPAL --- 
 func emular_combate(t1: Entrenador, t2: Entrenador) -> void:
 	# morfitos activos iniciales
 	var activo1: Morfito = elegir_morfi_activo(t1)
@@ -91,7 +90,6 @@ func emular_combate(t1: Entrenador, t2: Entrenador) -> void:
 
 	anunciar_ganador(t1, t2)
 
-
 # chequea si todo el equipo está debilitado
 func tiene_equipo_debilitado(morfis: Array) -> bool:
 	for m in morfis:
@@ -105,8 +103,7 @@ func esta_debilitado(morfito: Morfito) -> bool:
 
 
 
-
-# ACCIONES
+# ---  ACCIONES --- 
 enum AccionTipo { ATACAR, CAMBIAR }
 
 # --- helpers para crear decisiones ---
@@ -118,7 +115,7 @@ func cambiar(nuevo_morfi: Morfito) -> Dictionary:
 
 
 
-# --- TURNO---
+# --- TURNO ---
 
 # d1 y d2: diccionarios creados con atacar() o cambiar()
 # return: diccionario con cambios y KOs
@@ -197,52 +194,79 @@ func simular_turno(t1: Entrenador, t2: Entrenador, morfi1: Morfito, morfi2: Morf
 		"ganador": null
 	}
 
-	
 func acierta_Ataque(mov: Movimiento) -> bool:
 	var _numero_aleatorio: int = randi_range(0, 100) 
 	return _numero_aleatorio < mov.punteria # si lo dejo en < menor hay una chance mínima de que falle siendo 100 la puntería,  si lo dejo en <= menor igual, no fallaría nunca al ser 100 de punteria
 
+
+#func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
+ #
+	#var  ataque: float 
+	#var defensa: float
+#
+	#if mov.categoria == "Fisico":
+		#ataque = morfiA.atq 
+		#defensa = morfiB.def
+		#
+	#else:
+		#ataque = morfiA.atq_esp
+		#defensa = morfiB.def_esp
+	  #
+	  ## Cálculo del daño base
+	#var danio_base: float = ((42 * mov.poder * (ataque / defensa)) / 50) + 2 
+	## HAY Q MODIFICAR El 42 para que lo calcule exacto por nivel, 42 es el default de level 100.
+#
+	  ## Calculamos el STAB.          
+	#var stab: float
+	#if (morfiA.morfito_tipo == mov.mov_tipo): # Si el tipo del morfito coincide con el tipo del movimiento
+		#stab = 1.5 # Se aplica STAB 
+	#else:
+		#stab = 1 # No se aplica STAB
+#
+	  ## Efectividad de tipo (utiliza la tabla de efectividades para definir la eficacia).
+	#var efectividad: float = Efectividades.obtener_efectividad(mov.mov_tipo, morfiB.morfito_tipo);
+#
+	  ## Variación aleatoria (Este es el valor "random" que permite aportar aleatoriedad a los combates).
+	#var variacion_default:int  = randi_range(217,256) # Entre 217 y 255 inclusive, por los bytes que tenian como limitación.
+	#var variacion:float = variacion_default / 255 # ~0.85 a 1.0 , esta es la variación original de la primer Gen
+#
+	  ##Mínimo: 85% del daño base (multiplicado por 0.85)
+	  ##Máximo: 100 % del daño base(multiplicado por 1.00)
+	  ##Rango de variación: del 85 % al 100 %.
+#
+	  ## Calcular el daño final
+	#var danio_final: float = danio_base * stab * efectividad * variacion
+#
+	#return danio_final;
+#
+	## FUNCIÓN QUE DEFINE CUÁL MORFITO GOLPEA PRIMERO (según velocidad) Y ESTABLECE LA JERARQUÍA DE TURNOS.
+
 func calcular_Danio(mov: Movimiento, morfiA: Morfito, morfiB: Morfito) -> float:
- 
-	var  ataque: float 
+	var ataque: float
 	var defensa: float
 
 	if mov.categoria == "Fisico":
-		ataque = morfiA.atq 
+		ataque = morfiA.atq
 		defensa = morfiB.def
-		
 	else:
 		ataque = morfiA.atq_esp
 		defensa = morfiB.def_esp
-	  
-	  # Cálculo del daño base
-	var danio_base: float = ((42 * mov.poder * (ataque / defensa)) / 50) + 2 
-	# HAY Q MODIFICAR El 42 para que lo calcule exacto por nivel, 42 es el default de level 100.
 
-	  # Calculamos el STAB.          
-	var stab: float
-	if (morfiA.tipo == mov.tipo): # Si el tipo del morfito coincide con el tipo del movimiento
-		stab = 1.5 # Se aplica STAB 
-	else:
-		stab = 1 # No se aplica STAB
+	# fuerza float en TODOS los términos
+	var nivel := 10
+	var poder := float(mov.poder)
+	var atk := float(ataque)
+	var defn: float = max(1.0, float(defensa))
 
-	  # Efectividad de tipo (utiliza la tabla de efectividades para definir la eficacia).
-	var efectividad: float = Efectividades.obtener_efectividad(mov.tipo, morfiB.tipo);
+	var danio_base: float = ((nivel * poder * (atk / defn)) / 50.0) + 2.0
 
-	  # Variación aleatoria (Este es el valor "random" que permite aportar aleatoriedad a los combates).
-	var variacion_default:int  = randi_range(217,256) # Entre 217 y 255 inclusive, por los bytes que tenian como limitación.
-	var variacion:float = variacion_default / 255 # ~0.85 a 1.0 , esta es la variación original de la primer Gen
+	var stab := 1.5 if morfiA.morfito_tipo == mov.mov_tipo else 1.0
+	
+	var efectividad: float = Efectividades.obtener_efectividad(mov.mov_tipo, morfiB.morfito_tipo)
 
-	  #Mínimo: 85% del daño base (multiplicado por 0.85)
-	  #Máximo: 100 % del daño base(multiplicado por 1.00)
-	  #Rango de variación: del 85 % al 100 %.
+	var variacion := float(randi_range(217, 256)) / 255.0  # ~0.85..1.0
 
-	  # Calcular el daño final
-	var danio_final: float = danio_base * stab * efectividad * variacion
-
-	return danio_final;
-
-	# FUNCIÓN QUE DEFINE CUÁL MORFITO GOLPEA PRIMERO (según velocidad) Y ESTABLECE LA JERARQUÍA DE TURNOS.
+	return danio_base * stab * efectividad * variacion
 
 func definir_primer_golpe(morfiA: Morfito, morfiB: Morfito):
 	if (morfiA.velocidad > morfiB.velocidad):
@@ -265,10 +289,7 @@ func ejecutar_ataque(morfiA: Morfito, mov: Movimiento, morfiB:Morfito) -> void:
 		morfiB.ps -= int(round(danio))
 
 
-
-
-
-
+# --- FUNCIONES AUXILIARES --- 
 
 func obtener_decision(trainer: Entrenador, accion: int, movimiento_elegido: Movimiento = null, morfi_elegido: Morfito = null) -> Dictionary:
 	if accion == AccionTipo.ATACAR:

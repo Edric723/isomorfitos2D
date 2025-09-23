@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cg60y5nd7u8mv"]
+[gd_scene load_steps=4 format=3 uid="uid://cg60y5nd7u8mv"]
 
 [ext_resource type="Texture2D" uid="uid://dcjplpwovwvpg" path="res://_Assets/nirah-______-terrain.jpg" id="1_54cpu"]
+[ext_resource type="Texture2D" uid="uid://jp7pevvdis1t" path="res://_Assets/morfitos/morfi_solar.png" id="1_konaf"]
+[ext_resource type="Texture2D" uid="uid://ty4qbbpf43mg" path="res://_Assets/morfitos/morfi_umbra.png" id="2_6mism"]
 
 [node name="Combat_scene" type="Control"]
 y_sort_enabled = true
@@ -11,17 +13,32 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Field" type="Node2D" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 3
 
-[node name="Spawn_Left" type="Marker2D" parent="Field"]
+[node name="MorfiSolar" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(895, 413)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_konaf")
 
-[node name="Spawn_Right" type="Marker2D" parent="Field"]
+[node name="MorfiUmbra" type="Sprite2D" parent="CanvasLayer"]
+position = Vector2(320, 421)
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("2_6mism")
+flip_h = true
 
-[node name="Off_Left" type="Marker2D" parent="Field"]
+[node name="Field" type="Node2D" parent="CanvasLayer"]
 
-[node name="Off_Right" type="Marker2D" parent="Field"]
+[node name="Spawn_Left" type="Marker2D" parent="CanvasLayer/Field"]
+
+[node name="Spawn_Right" type="Marker2D" parent="CanvasLayer/Field"]
+
+[node name="Off_Left" type="Marker2D" parent="CanvasLayer/Field"]
+
+[node name="Off_Right" type="Marker2D" parent="CanvasLayer/Field"]
 
 [node name="Combat Hud" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="Fondo" type="TextureRect" parent="Combat Hud"]
 anchors_preset = 15

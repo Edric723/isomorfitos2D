@@ -12,24 +12,14 @@ var ps_max: int
 var velocidad: int
 var movimientos: Array = []
 
-# Aliases para compatibilidad (tu lógica usa morfi.nombre y morfi.tipo)
-var nombre: String:
-	get: return morfito_nombre
-	set(value): morfito_nombre = value
-
-var tipo: String:
-	get: return morfito_tipo
-	set(value): morfito_tipo = value
-
-
-func _init(morfito_nombre: String, morfito_tipo: String, atq: int, def: int, atqEsp: int, defEsp: int, ps: int, psMax: int, velocidad: int, movimientos: Array) -> void:
-	self.morfito_nombre = morfito_nombre
-	self.morfito_tipo = morfito_tipo
-	self.atq = atq
-	self.def = def
+func _init(nombre: String, tipo: String, ataque: int, defensa: int, atqEsp: int, defEsp: int, vida: int, vidaMax: int, rapidez: int, ataques: Array) -> void:
+	self.morfito_nombre = nombre
+	self.morfito_tipo = tipo
+	self.atq = ataque
+	self.def = defensa
 	self.atq_esp = atqEsp     # <-- usar el parámetro
 	self.def_esp = defEsp     # <-- usar el parámetro
-	self.ps = ps
-	self.ps_max = psMax       # <-- usar el parámetro
-	self.velocidad = velocidad
-	self.movimientos = movimientos
+	self.ps = vida
+	self.ps_max = vidaMax       # <-- usar el parámetro
+	self.velocidad = rapidez
+	self.movimientos = ataques

@@ -1,8 +1,104 @@
-[gd_scene load_steps=4 format=3 uid="uid://cg60y5nd7u8mv"]
+[gd_scene load_steps=16 format=3 uid="uid://cg60y5nd7u8mv"]
 
 [ext_resource type="Texture2D" uid="uid://dcjplpwovwvpg" path="res://_Assets/nirah-______-terrain.jpg" id="1_54cpu"]
-[ext_resource type="Texture2D" uid="uid://jp7pevvdis1t" path="res://_Assets/morfitos/morfi_solar.png" id="1_konaf"]
-[ext_resource type="Texture2D" uid="uid://ty4qbbpf43mg" path="res://_Assets/morfitos/morfi_umbra.png" id="2_6mism"]
+[ext_resource type="Texture2D" uid="uid://c8vt04tb70sml" path="res://_Assets/morfitos/otonoFINAL.png" id="1_konaf"]
+[ext_resource type="Texture2D" uid="uid://cybkmq1y3j8ju" path="res://_Assets/morfitos/inviernoFINAL.png" id="2_6mism"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lrkmi"]
+atlas = ExtResource("1_konaf")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_50yra"]
+atlas = ExtResource("1_konaf")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ol2wf"]
+atlas = ExtResource("1_konaf")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2dn41"]
+atlas = ExtResource("1_konaf")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p41ym"]
+atlas = ExtResource("1_konaf")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bomap"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lrkmi")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_50yra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ol2wf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2dn41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p41ym")
+}],
+"loop": false,
+"name": &"muerto",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akbws"]
+atlas = ExtResource("2_6mism")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s3vjc"]
+atlas = ExtResource("2_6mism")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2trs"]
+atlas = ExtResource("2_6mism")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jyimg"]
+atlas = ExtResource("2_6mism")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uoyyg"]
+atlas = ExtResource("2_6mism")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7l5kn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akbws")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s3vjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2trs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jyimg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uoyyg")
+}],
+"loop": false,
+"name": &"new_animation",
+"speed": 5.0
+}]
 
 [node name="Combat_scene" type="Control"]
 y_sort_enabled = true
@@ -16,15 +112,19 @@ grow_vertical = 2
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 3
 
-[node name="MorfiSolar" type="Sprite2D" parent="CanvasLayer"]
+[node name="MorfiSolar" type="AnimatedSprite2D" parent="CanvasLayer"]
 position = Vector2(895, 413)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("1_konaf")
+sprite_frames = SubResource("SpriteFrames_bomap")
+animation = &"muerto"
 
-[node name="MorfiUmbra" type="Sprite2D" parent="CanvasLayer"]
+[node name="MorfiUmbra" type="AnimatedSprite2D" parent="CanvasLayer"]
 position = Vector2(320, 421)
 scale = Vector2(0.2, 0.2)
-texture = ExtResource("2_6mism")
+sprite_frames = SubResource("SpriteFrames_7l5kn")
+animation = &"new_animation"
+frame = 3
+frame_progress = 1.0
 flip_h = true
 
 [node name="Field" type="Node2D" parent="CanvasLayer"]

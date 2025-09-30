@@ -8,6 +8,14 @@ script = ExtResource("1_h8yaf")
 
 [node name="Combat_scene" parent="." instance=ExtResource("2_ys0to")]
 
+[node name="MorfiSolar" parent="Combat_scene/CanvasLayer" index="0"]
+animation = &"idle"
+
+[node name="MorfiUmbra" parent="Combat_scene/CanvasLayer" index="1"]
+animation = &"idle"
+frame = 0
+frame_progress = 0.0
+
 [connection signal="pressed" from="Combat_scene/Combat Hud/Abajo/Zocalo_Inferior/Botonera/Grilla Botones/Atacar" to="." method="_on_atacar_pressed"]
 [connection signal="pressed" from="Combat_scene/Combat Hud/Abajo/Zocalo_Inferior/Botonera/Grilla Botones/Cambiar" to="." method="_on_cambiar_pressed"]
 [connection signal="pressed" from="Combat_scene/Combat Hud/Abajo/Zocalo_Inferior/Botonera/Grilla Botones/Inventario" to="." method="_on_inventario_pressed"]

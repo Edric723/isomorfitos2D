@@ -7,18 +7,10 @@ var categoria: String
 var poder: int
 var punteria: int
 
-# Aliases para compatibilidad (tu lógica usa mov.nombre y mov.tipo)
-var nombre: String:
-	get: return mov_nombre
-	set(value): mov_nombre = value
 
-var tipo: String:
-	get: return mov_tipo
-	set(value): mov_tipo = value
-
-func _init(mov_nombre: String, mov_tipo: String, categoria: String, poder: int, punteria: int) -> void:
-	self.mov_nombre = mov_nombre
-	self.mov_tipo = mov_tipo
-	self.categoria = categoria
-	self.poder = poder
-	self.punteria = punteria
+func _init(movNombre: String, movTipo: String, tipoAtq: String, fuerza: int, acierto: int) -> void:
+	self.mov_nombre = movNombre
+	self.mov_tipo = movTipo
+	self.categoria = tipoAtq
+	self.poder = fuerza
+	self.punteria = acierto

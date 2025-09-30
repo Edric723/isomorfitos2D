@@ -119,7 +119,7 @@ func cambiar(nuevo_morfi: Morfito) -> Dictionary:
 
 # d1 y d2: diccionarios creados con atacar() o cambiar()
 # return: diccionario con cambios y KOs
-func simular_turno(t1: Entrenador, t2: Entrenador, morfi1: Morfito, morfi2: Morfito, d1: Dictionary, d2: Dictionary) -> Dictionary:
+func simular_turno(_t1: Entrenador, _t2: Entrenador, morfi1: Morfito, morfi2: Morfito, d1: Dictionary, d2: Dictionary) -> Dictionary:
 	# 1) ambos cambian
 	if d1["tipo"] == AccionTipo.CAMBIAR and d2["tipo"] == AccionTipo.CAMBIAR:
 		return {
@@ -291,7 +291,7 @@ func ejecutar_ataque(morfiA: Morfito, mov: Movimiento, morfiB:Morfito) -> void:
 
 # --- FUNCIONES AUXILIARES --- 
 
-func obtener_decision(trainer: Entrenador, accion: int, movimiento_elegido: Movimiento = null, morfi_elegido: Morfito = null) -> Dictionary:
+func obtener_decision(_trainer: Entrenador, accion: int, movimiento_elegido: Movimiento = null, morfi_elegido: Morfito = null) -> Dictionary:
 	if accion == AccionTipo.ATACAR:
 		return {
 			"tipo": AccionTipo.ATACAR,

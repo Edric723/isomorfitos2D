@@ -11,6 +11,8 @@ extends Node2D
 @onready var inventario: Button = $"Combat_scene/Combat Hud/Abajo/Zocalo_Inferior/Botonera/Grilla Botones/Inventario"
 @onready var huir: Button = $"Combat_scene/Combat Hud/Abajo/Zocalo_Inferior/Botonera/Grilla Botones/Huir"
 
+@onready var morfi_solar: AnimatedSprite2D = $Combat_scene/CanvasLayer/MorfiSolar
+@onready var morfi_umbra: AnimatedSprite2D = $Combat_scene/CanvasLayer/MorfiUmbra
 
 
 
@@ -48,15 +50,9 @@ func _ready() -> void:
 	_log_linea("Atacar avanza el combate por turnos.")
 	_scroll_y_pausa()
 
-	# Conectar botones
-	atacar.pressed.connect(_on_atacar_pressed)
-	cambiar.pressed.connect(_on_cambiar_pressed)
-	inventario.pressed.connect(_on_inventario_pressed)
-	huir.pressed.connect(_on_huir_pressed)
-
 func _init_hud(a: Morfito, b: Morfito) -> void:
-	nombre_m_1.text = a.nombre
-	nombre_m_2.text = b.nombre
+	nombre_m_1.text = a.morfito_nombre
+	nombre_m_2.text = b.morfito_nombre
 	vida_m_1.max_value = a.ps_max
 	vida_m_2.max_value = b.ps_max
 	vida_m_1.value = a.ps
@@ -103,7 +99,7 @@ func _on_huir_pressed() -> void:
 # Lógica de un turno (avanza al apretar Atacar)
 # --------------------------
 func _combate_finalizado() -> bool:
-	if combate.tiene_equipo_debilitado(t1.morfis) or combate.tiene_equipo_debilitado(t2.morfis):
+	if combate.tiene_equipo_debilitado(t1.morfitos) or combate.tiene_equipo_debilitado(t2.morfitos):
 		return true
 	return false
 
@@ -123,26 +119,27 @@ func _resolver_turno() -> void:
 	var mov_primero: Movimiento = (mov1 if primero == m1 else mov2)
 	var mov_segundo: Movimiento = (mov1 if segundo == m1 else mov2)
 
-	_log_linea("Ataca primero: %s" % primero.nombre)
+	_log_linea("Ataca primero: %s" % primero.morfito_nombre)
 	await _scroll_y_pausa()
 
 	# ---- Golpe 1 ----
 	var hit1: bool = combate.acierta_Ataque(mov_primero)
 	if hit1:
 		var dmg1: int = int(round(combate.calcular_Danio(mov_primero, primero, segundo)))
-		var mult1: float = Efectividades.obtener_efectividad(mov_primero.mov_tipo, segundo.tipo)
+		var mult1: float = Efectividades.obtener_efectividad(mov_primero.mov_tipo, segundo.morfito_tipo)
 		segundo.ps = max(0, segundo.ps - dmg1)
-		_log_linea("%s usó %s → daño %d (x%.2f)." % [primero.nombre, mov_primero.mov_nombre, dmg1, mult1])
-		_log_linea("%s: %d/%d" % [segundo.nombre, segundo.ps, segundo.ps_max])
+		_log_linea("%s usó %s → daño %d (x%.2f)." % [primero.morfito_nombre, mov_primero.mov_nombre, dmg1, mult1])
+		_log_linea("%s: %d/%d" % [segundo.morfito_nombre, segundo.ps, segundo.ps_max])
 	else:
-		_log_linea("%s intenta usar %s…" % [primero.nombre, mov_primero.mov_nombre])
-		_log_linea("¡%s falló!" % primero.nombre)
+		_log_linea("%s intenta usar %s…" % [primero.morfito_nombre, mov_primero.mov_nombre])
+		_log_linea("¡%s falló!" % primero.morfito_nombre)
 	_update_hud()
 	await _scroll_y_pausa()
 
 	if combate.esta_debilitado(segundo):
-		_log_linea("%s quedó KO" % segundo.nombre)
-		_log_linea("¡%s gana el combate!" % (m1.nombre if segundo == m2 else m2.nombre))
+		#if segundo.morfito_nombre = 
+		_log_linea("%s quedó KO" % segundo.morfito_nombre)
+		_log_linea("¡%s gana el combate!" % (m1.morfito_nombre if segundo == m2 else m2.morfito_nombre))
 		_scroll_y_pausa()
 		_finalizar_ui()
 		return
@@ -151,26 +148,26 @@ func _resolver_turno() -> void:
 	var hit2: bool = combate.acierta_Ataque(mov_segundo)
 	if hit2:
 		var dmg2: int = int(round(combate.calcular_Danio(mov_segundo, segundo, primero)))
-		var mult2: float = Efectividades.obtener_efectividad(mov_segundo.mov_tipo, primero.tipo)
+		var mult2: float = Efectividades.obtener_efectividad(mov_segundo.mov_tipo, primero.morfito_tipo)
 		primero.ps = max(0, primero.ps - dmg2)
-		_log_linea("%s usó %s → daño %d (x%.2f)." % [segundo.nombre, mov_segundo.mov_nombre, dmg2, mult2])
-		_log_linea("%s: %d/%d" % [primero.nombre, primero.ps, primero.ps_max])
+		_log_linea("%s usó %s → daño %d (x%.2f)." % [segundo.morfito_nombre, mov_segundo.mov_nombre, dmg2, mult2])
+		_log_linea("%s: %d/%d" % [primero.morfito_nombre, primero.ps, primero.ps_max])
 	else:
-		_log_linea("%s intenta usar %s…" % [segundo.nombre, mov_segundo.mov_nombre])
-		_log_linea("¡%s falló!" % segundo.nombre)
+		_log_linea("%s intenta usar %s…" % [segundo.morfito_nombre	, mov_segundo.mov_nombre])
+		_log_linea("¡%s falló!" % segundo.morfito_nombre)
 	_update_hud()
 	await _scroll_y_pausa()
 
 	if combate.esta_debilitado(primero):
-		_log_linea("%s quedó KO" % primero.nombre)
-		_log_linea("¡%s gana el combate!" % (m1.nombre if primero == m2 else m2.nombre))
+		_log_linea("%s quedó KO" % primero.morfito_nombre)
+		_log_linea("¡%s gana el combate!" % (m1.morfito_nombre if primero == m2 else m2.morfito_nombre))
 		_scroll_y_pausa()
 		_finalizar_ui()
 		return
 
 	# Estado al cierre del turno
-	_log_linea("PS %s: %d/%d" % [m1.nombre, m1.ps, m1.ps_max])
-	_log_linea("PS %s: %d/%d" % [m2.nombre, m2.ps, m2.ps_max])
+	_log_linea("PS %s: %d/%d" % [m1.morfito_nombre, m1.ps, m1.ps_max])
+	_log_linea("PS %s: %d/%d" % [m2.morfito_nombre, m2.ps, m2.ps_max])
 	await _scroll_y_pausa()
 
 	turno += 1

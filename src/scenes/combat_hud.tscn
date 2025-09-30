@@ -96,7 +96,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_uoyyg")
 }],
 "loop": false,
-"name": &"new_animation",
+"name": &"muerto",
 "speed": 5.0
 }]
 
@@ -122,9 +122,7 @@ animation = &"muerto"
 position = Vector2(320, 421)
 scale = Vector2(0.2, 0.2)
 sprite_frames = SubResource("SpriteFrames_7l5kn")
-animation = &"new_animation"
-frame = 3
-frame_progress = 1.0
+animation = &"muerto"
 flip_h = true
 
 [node name="Field" type="Node2D" parent="CanvasLayer"]

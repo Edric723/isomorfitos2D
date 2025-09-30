@@ -98,6 +98,16 @@ func _on_huir_pressed() -> void:
 # --------------------------
 # Lógica de un turno (avanza al apretar Atacar)
 # --------------------------
+
+func _play_ko_for(morfi: Morfito) -> void:
+	var spr = morfi_umbra if morfi == m1 else morfi_solar
+	if spr:
+		spr.play("muerto")
+		await spr.animation_finished
+
+
+
+
 func _combate_finalizado() -> bool:
 	if combate.tiene_equipo_debilitado(t1.morfitos) or combate.tiene_equipo_debilitado(t2.morfitos):
 		return true
@@ -137,7 +147,7 @@ func _resolver_turno() -> void:
 	await _scroll_y_pausa()
 
 	if combate.esta_debilitado(segundo):
-		#if segundo.morfito_nombre = 
+		await _play_ko_for(segundo)
 		_log_linea("%s quedó KO" % segundo.morfito_nombre)
 		_log_linea("¡%s gana el combate!" % (m1.morfito_nombre if segundo == m2 else m2.morfito_nombre))
 		_scroll_y_pausa()
@@ -159,6 +169,7 @@ func _resolver_turno() -> void:
 	await _scroll_y_pausa()
 
 	if combate.esta_debilitado(primero):
+		await _play_ko_for(primero)
 		_log_linea("%s quedó KO" % primero.morfito_nombre)
 		_log_linea("¡%s gana el combate!" % (m1.morfito_nombre if primero == m2 else m2.morfito_nombre))
 		_scroll_y_pausa()

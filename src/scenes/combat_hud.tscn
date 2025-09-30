@@ -119,8 +119,8 @@ sprite_frames = SubResource("SpriteFrames_bomap")
 animation = &"muerto"
 
 [node name="MorfiUmbra" type="AnimatedSprite2D" parent="CanvasLayer"]
-position = Vector2(320, 421)
-scale = Vector2(0.2, 0.2)
+position = Vector2(320, 410)
+scale = Vector2(0.3, 0.3)
 sprite_frames = SubResource("SpriteFrames_7l5kn")
 animation = &"muerto"
 flip_h = true
@@ -128,6 +128,7 @@ flip_h = true
 [node name="Field" type="Node2D" parent="CanvasLayer"]
 
 [node name="Spawn_Left" type="Marker2D" parent="CanvasLayer/Field"]
+position = Vector2(20, 50)
 
 [node name="Spawn_Right" type="Marker2D" parent="CanvasLayer/Field"]
 

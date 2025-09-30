@@ -67,6 +67,7 @@ vertical = true
 
 [node name="Nombre_m1" type="Label" parent="Combat Hud/Arriba/Zocalo_Superior/morfi1"]
 layout_mode = 2
+text = "Soy un holder1"
 horizontal_alignment = 1
 
 [node name="Vida_m1" type="ProgressBar" parent="Combat Hud/Arriba/Zocalo_Superior/morfi1"]
@@ -81,6 +82,7 @@ vertical = true
 [node name="Nombre_m2" type="Label" parent="Combat Hud/Arriba/Zocalo_Superior/morfi2"]
 layout_direction = 3
 layout_mode = 2
+text = "Soy un holder2"
 horizontal_alignment = 1
 
 [node name="Vida_m2" type="ProgressBar" parent="Combat Hud/Arriba/Zocalo_Superior/morfi2"]

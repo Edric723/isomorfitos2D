@@ -227,10 +227,10 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nuidu"]
-radius = 4.0
+radius = 1.0
 height = 10.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 2
 motion_mode = 1
 wall_min_slide_angle = 0.122173
@@ -242,7 +242,7 @@ sprite_frames = SubResource("SpriteFrames_epw4f")
 animation = &"north"
 frame_progress = 0.107422
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Player"]]
 z_index = 2
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_nuidu")

@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://deyaob75a87ud"]
+
+[ext_resource type="Texture2D" uid="uid://brithwxib7slf" path="res://_Assets/morfitos/Isometric_Portal2.png" id="1_080ex"]
+[ext_resource type="Script" uid="uid://ccws2bxsd5muw" path="res://src/scripts/portal_2.gd" id="2_g7whr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7whr"]
+atlas = ExtResource("1_080ex")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eeb28"]
+atlas = ExtResource("1_080ex")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k3c57"]
+atlas = ExtResource("1_080ex")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ce3bi"]
+atlas = ExtResource("1_080ex")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3wrs"]
+atlas = ExtResource("1_080ex")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8bbnl"]
+atlas = ExtResource("1_080ex")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1w1sm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7whr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eeb28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k3c57")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ce3bi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3wrs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8bbnl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1fkr3"]
+height = 46.0
+
+[node name="Portal2" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_1w1sm")
+script = ExtResource("2_g7whr")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_1fkr3")

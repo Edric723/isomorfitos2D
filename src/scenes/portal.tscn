@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://b4yrw1ci7l25g"]
+[gd_scene load_steps=11 format=3 uid="uid://b4yrw1ci7l25g"]
 
 [ext_resource type="Texture2D" uid="uid://dqaemlrrwqlia" path="res://_Assets/morfitos/Isometric_Portal.png" id="1_ytm8g"]
+[ext_resource type="Script" uid="uid://cgcnacnwra3ta" path="res://src/scripts/portal.gd" id="2_a7rgh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a7rgh"]
 atlas = ExtResource("1_ytm8g")
@@ -52,5 +53,16 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ytm8g"]
+height = 48.0
+
 [node name="Portal" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_ytm8g")
+frame_progress = 0.203896
+script = ExtResource("2_a7rgh")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, 2)
+shape = SubResource("CapsuleShape2D_ytm8g")

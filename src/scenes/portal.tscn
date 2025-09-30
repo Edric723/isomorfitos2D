@@ -1,0 +1,56 @@
+[gd_scene load_steps=9 format=3 uid="uid://b4yrw1ci7l25g"]
+
+[ext_resource type="Texture2D" uid="uid://dqaemlrrwqlia" path="res://_Assets/morfitos/Isometric_Portal.png" id="1_ytm8g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7rgh"]
+atlas = ExtResource("1_ytm8g")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_teekm"]
+atlas = ExtResource("1_ytm8g")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dbb1w"]
+atlas = ExtResource("1_ytm8g")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5kr4"]
+atlas = ExtResource("1_ytm8g")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xm5n1"]
+atlas = ExtResource("1_ytm8g")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xh4tj"]
+atlas = ExtResource("1_ytm8g")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ytm8g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7rgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_teekm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dbb1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5kr4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xm5n1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xh4tj")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Portal" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_ytm8g")

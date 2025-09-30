@@ -1,6 +1,6 @@
 extends TileMapLayer
 
-const MURO_ATLAS := Vector2i(6, 5)
+const MURO_ATLAS := Vector2i(10, 8)
 const MURO_SOURCE := 0 # poné el source_id real de tu TileSet/Atlas
 
 func _ready() -> void:

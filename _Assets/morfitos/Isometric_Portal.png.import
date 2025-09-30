@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkngfropcp3rx"
-path="res://.godot/imported/playground_sheet.png-d688371a25d3387bf70b78191ac073ca.ctex"
+uid="uid://dqaemlrrwqlia"
+path="res://.godot/imported/Isometric_Portal.png-feefb895b854f95f2823781c6144ee52.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://_Assets/playground_sheet.png"
-dest_files=["res://.godot/imported/playground_sheet.png-d688371a25d3387bf70b78191ac073ca.ctex"]
+source_file="res://_Assets/morfitos/Isometric_Portal.png"
+dest_files=["res://.godot/imported/Isometric_Portal.png-feefb895b854f95f2823781c6144ee52.ctex"]
 
 [params]
 
